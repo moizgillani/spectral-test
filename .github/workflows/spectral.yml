@@ -9,12 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test this action against an incorrect file.
-        id: expect-failure
-        continue-on-error: true
-        uses: ./
-        with:
-          file_glob: ./test-sample.json
-          spectral_ruleset: ./spectral.yaml
+        run: spectral lint test-sample.json
 
       - if: ${{ failure() }}
         run: exit 0
