@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Google Translate API",
+    "title": "Google Translate API,
     "description": "API to detect any text's language and translate to some other language",
     "contact": {},
     "version": "1.0"
