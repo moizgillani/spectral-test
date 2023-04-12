@@ -13,7 +13,7 @@ jobs:
         continue-on-error: false
         uses: ./
         with:
-          file_glob: ./fixtures/*.yml
+          file_glob: ../*.json
           spectral_ruleset: .spectral.yaml
 
       - if: ${{ failure() }}
