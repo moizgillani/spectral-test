@@ -13,8 +13,8 @@ jobs:
         continue-on-error: true
         uses: ./
         with:
-          file_glob: .test-sample.json
-          spectral_ruleset: .spectral.yaml
+          file_glob: ./test-sample.json
+          spectral_ruleset: ./spectral.yaml
 
       - if: ${{ failure() }}
         run: exit 0
