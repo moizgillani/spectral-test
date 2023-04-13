@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test this action against an incorrect file.
-        run: docker run --rm -v ${{ github.workspace }}:${{ github.workspace }} stoplight/spectral lint ${{ github.workspace }}/test-sample.json --ruleset ${{ github.workspace }}/.spectral.yaml -o ${{ github.workspace }}/output.json
+        run: docker run --rm -v ${{ github.workspace }}:${{ github.workspace }} stoplight/spectral lint ${{ github.workspace }}/test-sample.json --ruleset ${{ github.workspace }}/.spectral.yaml
 
       - if: ${{ failure() }}
         run: exit 0
