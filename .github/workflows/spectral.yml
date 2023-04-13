@@ -1,15 +1,17 @@
-on:
-  - push
-  - pull_request
-name: CI
+name: Spectral
+
+on: [push]
+
+env:
+  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
+
 jobs:
-  spectralChecks:
-    name: Spectral checks
+  scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Test this action against an incorrect file.
-        run: docker run --rm -v ${{ github.workspace }}:${{ github.workspace }} stoplight/spectral lint ${{ github.workspace }}/test-sample.json --ruleset ${{ github.workspace }}/.spectral.yaml
-
-      - if: ${{ failure() }}
-        run: exit 0
+      - uses: actions/checkout@v3
+      - name: Install and run Spectral CI
+        uses: spectralops/spectral-github-action@v3
+        with:
+          spectral-dsn: ${{ env.SPECTRAL_DSN }}
+          spectral-args: scan --ok
