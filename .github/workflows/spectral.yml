@@ -1,69 +1,32 @@
-name: CI
+name: Spectral Linting
+author: Vincenzo Chianese
+description: Lint your files with Spectral
+inputs:
+  file_glob:
+    required: true
+    description: The pattern describing the file paths to lint with Spectral
+    default: '*.oas.{json,yml,yaml}'
+  spectral_ruleset:
+    required: false
+    description: |
+      Custom ruleset to load in Spectral.
 
-# Controls when the workflow will run
-on: [push, workflow_dispatch]
+      When unspecified, will try to load the default ruleset (matching .spectral.{yaml,yml,js,json}) if it exists.
+  repo_token:
+    required: false
+    description: |
+      The GitHub App installation access token.
 
-env:
-  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
-
-jobs:
-  ubuntu-ci:
-    name: Spectral ubuntu CI
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral CI
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: scan --ok
-  ubuntu-audit:
-    name: Spectral ubuntu audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral Audit
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: github -k repo -t ${{ secrets.MY_GITHUB_TOKEN }} https://github.com/SpectralOps/spectral-github-action --include-tags base,audit --ok
-  macos-ci:
-    name: Spectral macos CI
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral CI
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: scan --ok
-  macos-audit:
-    name: Spectral macos audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral Audit
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: github -k repo -t ${{ secrets.MY_GITHUB_TOKEN }} https://github.com/SpectralOps/spectral-github-action --include-tags base,audit --ok
-  windows-ci:
-    name: Spectral windows CI
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral CI
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: scan --ok
-  windows-audit:
-    name: Spectral windows audit
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral Audit
-        uses: spectralops/spectral-github-action@v3
-        with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: github -k repo -t ${{ secrets.MY_GITHUB_TOKEN }} https://github.com/SpectralOps/spectral-github-action --include-tags base,audit --ok
+      [Learn more about `GITHUB_TOKEN`](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret)
+    default: ${{ github.token }}
+  event_name:
+    required: false
+    description: |
+      The name of the event that triggered the workflow
+    default: ${{ github.event_name }}
+runs:
+  using: docker
+  image: Dockerfile
+branding:
+  icon: check-square
+  color: blue
