@@ -1,4 +1,4 @@
-name: Run Spectral on Push
+name: Run Spectral on Push request
 
 on:
   - push
