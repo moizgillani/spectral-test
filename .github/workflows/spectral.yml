@@ -1,17 +1,17 @@
-name: Spectral
+name: Run Spectral on Push
 
-on: [push]
-
-env:
-  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
+on:
+  - push
 
 jobs:
-  scan:
+  build:
+    name: Run Spectral
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install and run Spectral CI
-        uses: spectralops/spectral-github-action@v3
+      # Check out the repository
+      - uses: actions/checkout@v2
+
+      # Run Spectral
+      - uses: stoplightio/spectral-action@latest
         with:
-          spectral-dsn: ${{ env.SPECTRAL_DSN }}
-          spectral-args: scan --ok
+          file_glob: 'test-sample.json'
